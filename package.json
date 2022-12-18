@@ -1,0 +1,23 @@
+{
+  "name": "backend0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trungdeptraii/NodeJS_hoiDanIT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Trungdeptraii/NodeJS_hoiDanIT/issues"
+  },
+  "homepage": "https://github.com/Trungdeptraii/NodeJS_hoiDanIT#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
