@@ -1,6 +1,5 @@
 const path = require("path");
 const express = require("express");
-console.log(__dirname);
 //config Templace engine
 const configViewEngine = (app) => {
   app.set("views", `${__dirname}/../views`); //Khai báo thư mục chứa Templace engine

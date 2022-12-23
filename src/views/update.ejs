@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="/">Home</a>
+      <a href="/create">Create Users</a>
+      <a class="active" href="/update">Update User</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="new-form-group">
+      <form action="/update-user" method="POST">
+        <fieldset>
+          <legend>Update User to Database MySQL</legend>
+          <div class="input-group d-none">
+            <label for="">Id: </label>
+            <input type="text" name="id" value=" <%= resultID.id %> " />
+          </div>
+          <div class="input-group">
+            <label for="">Email: </label>
+            <input type="text" name="email" value=" <%= resultID.email %> " />
+          </div>
+          <div class="input-group">
+            <label for="">Name: </label>
+            <input type="text" name="name" value=" <%= resultID.name %>" />
+          </div>
+          <div class="input-group">
+            <label for="">City: </label>
+            <input type="text" name="city" value=" <%= resultID.city %>" />
+          </div>
+          <div class="btn">
+            <button class="btn-btn">Save</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,12 +1,22 @@
 const express = require("express");
 const routertest = express.Router();
 
-const getHomePage = require(`${__dirname}/../controllers/homeController.js`);
+let {
+  getAllUsers,
+  addUser,
+  createUser,
+  getIdUsers,
+  updateIDs,
+  handleDeleteUsers,
+  deleteUsers,
+} = require(`${__dirname}/../controllers/homeController.js`);
 
-routertest.get("/123", getHomePage);
+routertest.get("/", getAllUsers);
+routertest.get("/update/:idUsers", getIdUsers);
+routertest.post("/create-user", addUser);
+routertest.post("/update-user", updateIDs);
+routertest.get("/create", createUser);
+routertest.get("/deleteUsers/:idUsers", handleDeleteUsers);
+routertest.post("/deleteUsers", deleteUsers);
 
-routertest.get("/456", (req, res) => {
-  res.end("456");
-});
-
-module.exports = routertest;
+module.exports = { routertest };

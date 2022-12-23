@@ -4,9 +4,43 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/home.css" />
     <title>Document</title>
   </head>
   <body>
-    Trungdeptrai
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="/create">Create Users</a>
+      <a href="/update">Update Users</a>
+      <a href="#about">About</a>
+    </div>
+    <h1 class="name_table">Read Users in Database</h1>
+
+    <table id="customers">
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Actions</th>
+      </tr>
+      <% resultUser.forEach((el)=> { %>
+      <tr>
+        <td><%= el.id %></td>
+        <td><%= el.email %></td>
+        <td><%= el.name %></td>
+        <td><%= el.city %></td>
+        <td>
+          <div class="td-btn">
+            <button class="btn"><a href="/update/<%= el.id %>">Edit</a></button>
+            <form action="/deleteUsers/<%= el.id %>" method="GET">
+              <button class="btn">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
   </body>
 </html>
