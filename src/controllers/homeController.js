@@ -22,6 +22,7 @@ const createUser = async (req, res) => {
 
 const getIdUsers = async (req, res) => {
   let result = await getIdUser(req, res);
+  console.log(result);
   res.render("update", { resultID: result });
 };
 

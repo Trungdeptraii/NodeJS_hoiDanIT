@@ -1,39 +1,55 @@
 // get the client
-const mysql = require("mysql2/promise");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-// create the connection to database
-// const connection = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   port: process.env.DB_PORT,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PW,
-//   database: process.env.DB_NAME,
-// });
+//Creat avalible state connect
+var dbState = [
+  {
+    value: 0,
+    label: "Disconnected",
+  },
+  {
+    value: 1,
+    label: "Connected",
+  },
+  {
+    value: 2,
+    label: "Connecting",
+  },
+  {
+    value: 3,
+    label: "Disconnecting",
+  },
+];
 
-// create the connection pool to database
-const connection = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
+const option = {
   user: process.env.DB_USER,
-  password: process.env.DB_PW,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+  pass: process.env.DB_PW,
+  dbName: process.env.DB_NAME,
+};
 
-// async function create_connect() {
-//   const connection =  mysql.createPool({
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PW,
-//     database: process.env.DB_NAME,
-//     waitForConnections: true,
-//     connectionLimit: 10,
-//     queueLimit: 0,
-//   });
-//   return connection;
-// }
+const connection = async () => {
+  try {
+    await mongoose.connect(process.env.DB_HOST, option);
+    const state = Number(mongoose.connection.readyState);
+    console.log(
+      dbState.filter((el) => {
+        if (el.value === state) {
+          return el.label;
+        }
+      })
+    );
+  } catch (error) {
+    console.log(">>>> Connect to DB ERROR :  ", error);
+    const state = Number(mongoose.connection.readyState);
+    console.log(
+      dbState.filter((el) => {
+        if (el.value === state) {
+          return el.label;
+        }
+      })
+    );
+  }
+};
 
 module.exports = connection;

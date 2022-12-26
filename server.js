@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const configViewEngine = require(`${__dirname}/src/config/viewEngine.js`);
 const { routertest } = require(`${__dirname}/src/router/test.js`);
+const connection = require(`${__dirname}/src/config/DB.js`);
 
 const app = express();
 
@@ -22,16 +23,20 @@ const port = process.env.PORT || 8888;
 //config Templace engine
 configViewEngine(app);
 
-// simple query
-// connection.query("select * from Users u", function (err, results, fields) {
-//   if (!err) {
-//     console.log("Ket Qua", results); // results contains rows returned by server
-//   } else console.log("ERROR :", err);
-// });
+//Test connect
 
 //Router
 app.use("/", routertest);
 
-app.listen(port, hostname, () => {
-  console.log(`Example app listening on  port ${port}`);
-});
+(async () => {
+  try {
+    await connection();
+    app.listen(port, hostname, () => {
+      console.log(`Example app listening on  port ${port}`);
+    });
+  } catch (error) {
+    console.log("DB ERROR: ", error);
+  }
+})();
+
+module.exports = app;
