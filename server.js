@@ -2,8 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const configViewEngine = require(`${__dirname}/src/config/viewEngine.js`);
-const { routertest } = require(`${__dirname}/src/router/test.js`);
+const apiRouter = require(`${__dirname}/src/router/api.js`);
 const connection = require(`${__dirname}/src/config/DB.js`);
+const fileupdate = require("express-fileupload");
 
 const app = express();
 
@@ -13,6 +14,10 @@ app.use(
     ":remote-addr - :remote-user [:date[clf]] ':method :url HTTP/:http-version' :status"
   )
 );
+
+//Config upload file:  view -> route -> control -> model -> view
+// view -> route -> req.file -> control -> model -> view
+app.use(fileupdate());
 
 app.use(express.json()); // Used to parse JSON bodies - for JSON
 app.use(express.urlencoded()); //Parse URL-encoded bodies - for Form Data
@@ -26,7 +31,7 @@ configViewEngine(app);
 //Test connect
 
 //Router
-app.use("/", routertest);
+app.use("/api/v1/", apiRouter);
 
 (async () => {
   try {
