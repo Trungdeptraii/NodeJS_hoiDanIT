@@ -1,10 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const creatSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  city: String,
+//shape data
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    city: String,
 });
-const creatCollection = mongoose.model("col_HoidanIT", creatSchema);
 
-module.exports = creatCollection;
+const User = mongoose.model('user', userSchema);
+
+module.exports = User;

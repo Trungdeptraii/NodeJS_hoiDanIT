@@ -11,7 +11,14 @@ let {
 
 let {
   creatCustomer,
+  creatArrayCustomers,
+  getAllCustomers,
+  updateCustomer,
+  deleteCustomer,
+  deleteArrayCustomers,
 } = require(`${__dirname}/../controllers/apiCustomerController.js`);
+
+let { creatProject } = require(`${__dirname}/../controllers/apiProject.js`);
 
 routerAPI.get("/users", getAllUsers);
 routerAPI.post("/users", addUser);
@@ -20,6 +27,13 @@ routerAPI.delete("/users", deleteUsers);
 routerAPI.post("/file", uploadMutiplates);
 routerAPI.post("/files", uploadMutiplates);
 
-routerAPI.post("/customer", creatCustomer);
+routerAPI.post("/customers", creatCustomer);
+routerAPI.post("/customers-many", creatArrayCustomers);
+routerAPI.get("/customers", getAllCustomers);
+routerAPI.put("/customers", updateCustomer);
+routerAPI.delete("/customers", deleteCustomer);
+routerAPI.delete("/customers-many", deleteArrayCustomers);
+
+routerAPI.post("/project", creatProject);
 
 module.exports = routerAPI;

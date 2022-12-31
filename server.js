@@ -5,6 +5,7 @@ const configViewEngine = require(`${__dirname}/src/config/viewEngine.js`);
 const apiRouter = require(`${__dirname}/src/router/api.js`);
 const connection = require(`${__dirname}/src/config/DB.js`);
 const fileupdate = require("express-fileupload");
+const { MongoClient } = require("mongodb");
 
 const app = express();
 
@@ -35,7 +36,19 @@ app.use("/api/v1/", apiRouter);
 
 (async () => {
   try {
+    //using mongoose
     await connection();
+
+    //using mongodb
+    // const url = process.env.DB_URL;
+    // const db_name = process.env.DB_NAME;
+    // const client_mongo = new MongoClient(url);
+    // await client_mongo.connect();
+    // console.log("Connected successfully to server");
+    // const db = client_mongo.db(db_name);
+    // const collection = db.collection("customer");
+
+    // await collection.insertOne({ name: "Trungdeptrai", address: "Ha Noi" });
     app.listen(port, hostname, () => {
       console.log(`Example app listening on  port ${port}`);
     });
