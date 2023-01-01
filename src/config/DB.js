@@ -30,7 +30,7 @@ const option = {
 
 const connection = async () => {
   try {
-    await mongoose.connect(process.env.DB_HOST, option);
+    await mongoose.connect(process.env.DB_CLOUD, option);
     const state = Number(mongoose.connection.readyState);
     console.log(
       dbState.filter((el) => {

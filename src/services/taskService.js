@@ -1,24 +1,24 @@
-const Project = require(`${__dirname}/../models/project.js`);
 const Task = require(`${__dirname}/../models/task.js`);
-const Users = require(`${__dirname}/../models/user.js`);
+const Project = require(`${__dirname}/../models/project.js`);
 const aqp = require("api-query-params");
 
-const apiCreatProject = async (req, res) => {
+const apiCreatTask = async (req, res) => {
   try {
-    if (req.body.type === "EMPTY-PROJECT") {
-      let result = await Project.create(req.body);
+    if (req.body.type === "EMPTY-TASK") {
+      let result = await Task.create(req.body);
       return result;
-    } else if (req.body.type === "ADD-USERS") {
+    } else if (req.body.type === "ADD-TASK") {
       let myProject = await Project.findById(req.body.projectId);
-      for (let value of req.body.usersArr) {
-        myProject.usersInfor.push(value);
+      console.log(myProject);
+      for (let value of req.body.taskArr) {
+        myProject.tasks.push(value);
       }
       let result = await myProject.save();
       return result;
-    } else if (req.body.type === "REMOVE-USERS") {
+    } else if (req.body.type === "REMOVE-TASK") {
       let myProject = await Project.findById(req.body.projectId);
-      for (let value of req.body.usersArr) {
-        myProject.usersInfor.pull(value);
+      for (let value of req.body.taskArr) {
+        myProject.tasks.pull(value);
       }
       let result = await myProject.save();
       return result;
@@ -28,29 +28,28 @@ const apiCreatProject = async (req, res) => {
   }
 };
 
-const apiGetProject = async (req, res) => {
+const apiGetTask = async (req, res) => {
   try {
-    let { filter, limit, population } = aqp(req.query);
+    let { filter, limit } = aqp(req.query);
     let page = filter.page;
     let skip = Number(page - 1) * limit > 0 ? Number((page - 1) * limit) : 0;
     delete filter.page;
     if (limit && page) {
-      result = await Project.find(filter)
+      result = await Task.find(filter)
         .skip(skip)
         .limit(limit)
-        .populate(population);
+        .populate("usersInfor");
       return result;
-    }
+    } else return await Task.find();
   } catch (error) {
     console.log(error);
   }
 };
 
-const apiUpdateProject = async (req, res) => {
+const apiUpdateTask = async (req, res) => {
   try {
-    console.log(req.body);
     const { id, name, startDate, endDate, description } = req.body;
-    let result = await Project.findOneAndUpdate(
+    let result = await Task.findOneAndUpdate(
       { _id: id },
       {
         name,
@@ -66,9 +65,9 @@ const apiUpdateProject = async (req, res) => {
   }
 };
 
-const apiDeleteProject = async (req, res) => {
+const apiDeleteTask = async (req, res) => {
   try {
-    let result = await Project.deleteById(req.body.id);
+    let result = await Task.deleteById(req.body.id);
     return result;
   } catch (error) {
     console.log(error);
@@ -76,8 +75,8 @@ const apiDeleteProject = async (req, res) => {
 };
 
 module.exports = {
-  apiCreatProject,
-  apiGetProject,
-  apiUpdateProject,
-  apiDeleteProject,
+  apiCreatTask,
+  apiGetTask,
+  apiUpdateTask,
+  apiDeleteTask,
 };

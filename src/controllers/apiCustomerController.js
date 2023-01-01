@@ -10,11 +10,9 @@ const {
 } = require(`${__dirname}/../services/customerService.js`);
 
 const creatCustomer = async (req, res) => {
-  const { name, address, phone, city, email, description } = req.body;
-  console.log(name, description);
   let pathImage = "";
   if (!req.files || Object.keys(req.files).length === 0) {
-    res.status(400).send("No files were uploaded.");
+    // res.status(400).send("No files were uploaded.");
   } else if (Array.isArray(req.files.image)) {
     let result = await uploadM(req.files.image);
     console.log("result Mutiplate: ", result);
@@ -31,17 +29,7 @@ const creatCustomer = async (req, res) => {
     } else console.log(result.message);
   }
 
-  let customer = {
-    name,
-    address,
-    phone,
-    city,
-    email,
-    description,
-    pathImage,
-  };
-
-  let checkCreat = await CreateCus(customer);
+  let checkCreat = await CreateCus(req, res, pathImage);
   res.status(200).json({
     errCode: 0,
     data: checkCreat,

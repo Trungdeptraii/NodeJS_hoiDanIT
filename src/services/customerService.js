@@ -1,5 +1,6 @@
 const custommer_Col = require(`${__dirname}/../models/customer.js`);
 const aqp = require("api-query-params");
+const Joi = require("joi");
 const path = require("path");
 
 const uploadS = async (filename) => {
@@ -68,18 +69,38 @@ const uploadM = async (arrFile) => {
   }
 };
 
-const CreateCus = async (customer) => {
+const CreateCus = async (req, res, pathImage) => {
   try {
-    let result = await custommer_Col.create({
-      name: customer.name,
-      address: customer.address,
-      phone: customer.phone,
-      city: customer.city,
-      email: customer.email,
-      description: customer.description,
-      image: customer.pathImage,
+    let { name, address, phone, city, email, description } = req.body;
+    const schema = Joi.object({
+      name: Joi.string().alphanum().min(3).max(30).required(),
+      address: Joi.string(),
+      phone: Joi.string().pattern(new RegExp("^[0-9]{8,11}$")),
+      city: Joi.string(),
+      email: Joi.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: ["com", "net"] },
+      }),
+      description: Joi.string(),
     });
-    return result;
+    let checkValidate = schema.validate(req.body);
+    if (checkValidate.error) {
+      return {
+        errCode: -1,
+        message: checkValidate.error,
+      };
+    } else {
+      let result = await custommer_Col.create({
+        name: name,
+        address: address,
+        phone: phone,
+        city: city,
+        email: email,
+        description: description,
+        image: pathImage,
+      });
+      return result;
+    }
   } catch (error) {
     console.log(error);
   }
